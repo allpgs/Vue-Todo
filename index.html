@@ -12,8 +12,65 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:400,700&subset=latin-ext" rel="stylesheet">
     <link href='//fonts.googleapis.com/earlyaccess/nanumgothic.css' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mobile-detect@1.4.5/mobile-detect.min.js"></script>
+    <script>
+        $(window).on('load', function() {
+            var md = new MobileDetect(window.navigator.userAgent);
+            if(md.mobile()) {
+                console.log('모바일');
+                setTimeout(function() {
+                    $('body').addClass('mob-body');
+                    $('#loading_spin').fadeOut();
+                    setTimeout(function() {
+                        $('.pc').hide();
+                        $('.mob').fadeIn();
+                    }, 500);
+                }, 3000)
+            }
+            else {
+                console.log('PC');
+                setTimeout(function() {
+                    $('body').addClass('pc-body');
+                    $('#loading_spin').fadeOut();
+                    setTimeout(function() {
+                        $('.pc').fadeIn();
+                        $('.mob').hide();
+                    }, 500);
+                }, 3000);
+            }
+        });
+    </script>
 </head>
 <body>
+    <style>
+      #loading_spin {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        /* border: 3px solid rgba(255,255,255,.3); */
+        border: 3px solid rgb(156 139 139 / 30%);
+        border-radius: 50%;
+        /* border-top-color: #fff; */
+        border-top-color: #000;
+        animation: spin 1s ease-in-out infinite;
+        -webkit-animation: spin 1s ease-in-out infinite;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+      @-webkit-keyframes spin {
+        0% { -webkit-transform: translate(-50%, -50%) rotate(0deg); }
+        100% { -webkit-transform: translate(-50%, -50%) rotate(360deg); }
+      }
+</style>
+    <div id="loading_spin"></div>
+    <div class="pc" style="display: none;">
     <style>
     html {
 	/*
@@ -16231,6 +16288,15 @@
             <iframe src="https://vuejstodo-aa185.firebaseapp.com/" width="372" height="540" frameborder="0"></iframe>
         </div>
     </div>
+</div>
+</div>
+
+<div class="mob" style="display: none;">
+<style>
+    .mob-body body { margin: 0; overflow: hidden; }
+    .mob iframe { width: 100vw; height: 100vh; border: none; }
+</style>
+<iframe src="https://vuejstodo-aa185.firebaseapp.com/"></iframe>
 </div>
 </body>
 </html>
